@@ -1,6 +1,4 @@
-
 import streamlit as st
-import random
 
 # Define data
 words = [
@@ -21,13 +19,17 @@ if uploaded_file:
     
     # Show transcription results
     st.subheader("Transcription Results")
+    
+    # Loop through words and display IPA options
     for word_data in words:
         st.markdown(f"### {word_data['word'].capitalize()}")
         
-        # Generate random AI suggestion
-        ai_suggestion = random.choice(word_data["ipa"])
+        # Create a horizontal layout for IPA transcriptions
+        selected_ipa = st.radio(
+            "Select the correct IPA transcription:",
+            word_data["ipa"],
+            horizontal=True,
+            key=word_data["word"]
+        )
         
-        # Create table for IPA options
-        for ipa in word_data["ipa"]:
-            highlight = " (AI Suggestion)" if ipa == ai_suggestion else ""
-            st.radio(f"{ipa}{highlight}", options=["Correct", "Incorrect"])
+        st.write(f"You selected: {selected_ipa}")
